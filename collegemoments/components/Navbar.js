@@ -9,11 +9,11 @@ export default function Navbar() {
           <Link href="/">MyApp</Link>
         </div>
         <div className="space-x-4">
-          <Link href="/login">
-            <a className="text-white hover:text-gray-400">Login</a>
+          <Link href="/Login" className="text-white hover:text-gray-400">
+            Login
           </Link>
-          <Link href="/signup">
-            <a className="text-white hover:text-gray-400">Sign Up</a>
+          <Link href="/Signup" className="text-white hover:text-gray-400">
+            Sign Up
           </Link>
         </div>
       </div>
