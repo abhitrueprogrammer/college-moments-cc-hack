@@ -52,7 +52,7 @@ export default function Component() {
           </h2>
         </div>
         <form className="mt-4 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
-          <div className="relative block w-full appearance-none rounded-2xl border  px-3 py-2 text-gray-900  focus:z-10  sm:text-sm transition-colors duration-300 ease-in-out focus:shadow-lg">
+          <div className="-space-y-px rounded-md shadow-sm rounde">
             <div className="mb-6">
               <label htmlFor="email" className="sr-only">
                 Email address
