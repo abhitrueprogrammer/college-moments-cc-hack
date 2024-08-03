@@ -16,21 +16,7 @@ export default function Navbar() {
             <li>Upcoming events</li>
           </ul>
           
-          <button className="clubLogin absolute h-3">Club Login</button>
-
-
-          
-          
-
-
-
-
-
-
-
-
-
-        </div>
+          <button className="clubLogin absolute h-3">Club Login</button></div>
         {/* <div className="space-x-4">
           <Link href="/Login" className="text-white hover:text-gray-400">
             Login
