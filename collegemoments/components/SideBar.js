@@ -6,7 +6,11 @@ import "./SideBar.css"
 export default function SideBar() {
     return (
         <div className='sideBar'>
-            <p className='sideBarHeading relative '>Featured</p>
+            <p className='sideBarHeading'>Featured</p>
+            <div className='sideCard'></div>
+            <div className='sideCard'></div>
+            <div className='sideCard'></div>
+            <div className='sideCard'></div>
         </div>
 
     )

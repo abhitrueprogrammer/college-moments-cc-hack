@@ -2,20 +2,28 @@
 
 .sideBar{
 height: 100%;
-width: 20%;
 border-radius: 24px 0 0 24px; /* top-left, top-right, bottom-right, bottom-left */
 background: hsl(0, 0%, 85%);
 position: absolute;
 right: 0;
-padding: 50px;
+padding: 30px;
 display: flex;
-justify-content: center;
+align-items: center;
+flex-flow: column;
+gap: 20px;
 box-shadow: 0px 4px 2.3px 0px rgba(0, 0, 0, 0.17);
 }
 
 .sideBarHeading{
     font-family: "Nunito Sans", serif;
     font-size: 28px;
-
     font-weight:  550;
+}
+
+.sideCard{
+    background-color: gray;
+    width: 200px;
+    height: 200px;
+    display: block;
+    
 }

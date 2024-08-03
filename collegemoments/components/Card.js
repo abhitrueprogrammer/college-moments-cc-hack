@@ -15,7 +15,7 @@ export default function Card({ title, description, imageSrc, link }) {
           {link && (
             <a
               href={link}
-              className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="mt-4 inline-block bg-z text-white py-2 px-4 rounded hover:bg-blue-600"
             >
               Learn More
             </a>
