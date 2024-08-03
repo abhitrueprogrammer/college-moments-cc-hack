@@ -1,53 +1,68 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Draggable from 'react-draggable'
-import "./login.css"
-
-export default function Component() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
+import { useRouter } from "next/navigation";
+import "./login.css";
+import Draggable from 'react-draggable';
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
+
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value)
-  }
+    setPassword(e.target.value);
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleRememberMe = () => {
-    setRememberMe(!rememberMe)
-  }
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
+    setRememberMe(!rememberMe);
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
+    e.preventDefault();
+    setLoading(true);
+    setError("");
     // Dummy API call
     setTimeout(() => {
       if (email === "test@example.com" && password === "password") {
-        alert("Login successful!")
+        alert("Login successful!");
       } else {
-        setError("Invalid email or password")
+        setError("Invalid email or password");
       }
-      setLoading(false)
-    }, 2000)
-  }
-  const remStyle = {
-    margin: "20px 0px",
-    marginLeft: "4px"
+      setLoading(false);
+    }, 2000);
+  };
 
-  }
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const userEmail = result.user.email;
+      localStorage.setItem("userEmail", userEmail);
+      router.push("/your-redirect-page"); // Redirect to your desired page after login
+    } catch (error) {
+      console.error("Error during Google login:", error);
+    }
+  };
+
   const isEmailValid = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-400 to-pink-400 px-4 py-8 sm:px-6 lg:px-8">
@@ -98,12 +113,12 @@ export default function Component() {
                   value={password}
                   onChange={handlePasswordChange}
                 />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={handleShowPassword}>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={handleTogglePassword}>
                   <EyeOffIcon className="h-5 w-5 text-gray-400 hover:text-gray-500" />
                 </div>
               </div>
             </div>
-            <div style={remStyle} className="mainFont rem-div flex items-center justify-between mb-6">
+            <div className="mainFont rem-div flex items-center justify-between mb-6" style={{ margin: "20px 0px", marginLeft: "4px" }}>
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -121,7 +136,7 @@ export default function Component() {
             <div className="mainFont mb-4 log-btn-p">
               <motion.button
                 type="submit"
-                className=" log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none transition-colors duration-300 ease-in-out"
+                className="log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none transition-colors duration-300 ease-in-out"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.99 }}
                 disabled={loading}
@@ -135,12 +150,12 @@ export default function Component() {
             <div className="mainFont mb-4 log-btn-p">
               <motion.button
                 type="button"
-                className=" log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  transition-colors duration-300 ease-in-out"
+                onClick={handleGoogleLogin}
+                className="log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-colors duration-300 ease-in-out"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.99 }}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  {/* <ChromeIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" /> */}
                   <img className="w-6" src="/google.png" alt="" />
                 </span>
                 Login with Google
@@ -159,7 +174,7 @@ export default function Component() {
               <p>Don&apos;t have an account? <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a></p>
           </div>
         </div>
-        {/* <Draggable>
+        <Draggable>
           <div className="absolute top-10 right-10 p-2 bg-indigo-300 rounded-full shadow-lg cursor-pointer">
             <motion.div
               animate={{ rotate: 360 }}
@@ -168,10 +183,50 @@ export default function Component() {
               😊
             </motion.div>
           </div>
-        </Draggable> */}
+        </Draggable>
+        <Draggable>
+          <div className="absolute top-20 left-20 p-2 bg-pink-300 rounded-full shadow-lg cursor-pointer">
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            >
+              🌟
+            </motion.div>
+          </div>
+        </Draggable>
+        <Draggable>
+          <div className="absolute bottom-10 left-10 p-2 bg-yellow-300 rounded-full shadow-lg cursor-pointer">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            >
+              🚀
+            </motion.div>
+          </div>
+        </Draggable>
+        <Draggable>
+          <div className="absolute bottom-20 right-20 p-2 bg-green-300 rounded-full shadow-lg cursor-pointer">
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            >
+              🌈
+            </motion.div>
+          </div>
+        </Draggable>
+        <Draggable>
+          <div className="absolute top-1/2 left-1/4 p-2 bg-blue-300 rounded-full shadow-lg cursor-pointer">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            >
+              💡
+            </motion.div>
+          </div>
+        </Draggable>
       </div>
     </div>
-  )
+  );
 }
 
 function CheckIcon(props) {
@@ -190,33 +245,8 @@ function CheckIcon(props) {
     >
       <path d="M20 6 9 17l-5-5" />
     </svg>
-  )
+  );
 }
-
-
-function ChromeIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="4" />
-      <line x1="21.17" x2="12" y1="8" y2="8" />
-      <line x1="3.95" x2="8.54" y1="6.06" y2="14" />
-      <line x1="10.88" x2="15.46" y1="21.94" y2="14" />
-    </svg>
-  )
-}
-
 
 function EyeOffIcon(props) {
   return (
@@ -234,13 +264,11 @@ function EyeOffIcon(props) {
     >
       <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
       <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
-      <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
-      <line x1="2" x2="22" y1="2" y2="22" />
+      <path d="M6.61 6.61C4.25 8.44 2 12 2 12a16 16 0 0 0 2.92 3.88" />
+      <path d="m1 1 22 22" />
     </svg>
-  )
+  );
 }
-
-
 
 function LockIcon(props) {
   return (
@@ -256,8 +284,8 @@ function LockIcon(props) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
-  )
+  );
 }
