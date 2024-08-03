@@ -3,9 +3,10 @@
 import Image from "next/image";
 import HomeCard from "./homeCard/HomeCard";
 import Leftbar from "./Leftbar/Leftbar";
-import Searchbar from "./Searchbar/SearchBar"
+import Searchbar from "./Searchbar/Searchbar"
 import "./page.css"
 import { useState } from "react";
+
 export default function Home() {
   const [nums, setNums] = useState([1, 2, 3, 4, 5, 6])
   const [clubs, setClubs] = useState([

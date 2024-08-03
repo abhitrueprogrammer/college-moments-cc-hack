@@ -16,7 +16,7 @@ const connect = async () => {
 
     try{
         await mongoose.connect(MONGODB_URI,{
-            dbName: "DealHarbor",
+            dbName: "CollegeMoments",
             bufferCommands: false,
         })
     }
