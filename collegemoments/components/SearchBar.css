@@ -1,0 +1,12 @@
+.searchBar {
+    border: 2px solid black;
+    border-radius: 20px;
+    height: 5vh;
+    width: 25vw;
+    padding: 0 0 0 3vw;
+}
+
+.searchBar::placeholder {
+    color: rgb(82, 76, 76);
+}
+
