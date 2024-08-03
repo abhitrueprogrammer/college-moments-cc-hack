@@ -1,13 +1,16 @@
 // app/api/uploadEvent/route.js
 import { NextResponse } from 'next/server';
 // import connect from '../../../lib/db';
-import connect from '@/lib/db';
+// import connect from '@/lib/db';
+import connect from "../../../lib/db"
 // import Event from '../../../models/Event';
-import Event from '@/lib/models/Event';
+// import Event from '@/lib/models/Event';
+import Event from "../../../lib/models/Event"
 // import Club from '../../../models/Club';
-import Club from '@/lib/models/Club';
+// import Club from '@/lib/models/Club';
+import Club from "../../../lib/models/Club"
 // import User from '../../../models/User';
-import User from '@/lib/models/User';
+import User from "../../../lib/models/User"
 
 export async function POST(request) {
   await connect();

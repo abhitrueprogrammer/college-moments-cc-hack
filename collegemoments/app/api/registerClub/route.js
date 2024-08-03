@@ -1,7 +1,9 @@
 // app/api/registerClub/route.js
 import { NextResponse } from 'next/server';
-import connect from '@/lib/db';
-import Club from '@/lib/models/Club';
+// import connect from '@/lib/db';
+import connect from "../../../lib/db"
+// import Club from '@/lib/models/Club';
+import Club from "../../../lib/models/Club"
 
 export async function POST(request) {
   await connect();

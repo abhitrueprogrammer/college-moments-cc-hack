@@ -1,8 +1,9 @@
 // app/api/registerAdmin/route.js
 import { NextResponse } from 'next/server';
-import connect from '@/lib/db';
-import User from '@/lib/models/User';
-import Club from '@/lib/models/Club';
+// import connect from '@/lib/db';
+import connect from "../../../lib/db"
+import User from "../../../lib/models/User"
+import Club from "../../../lib/models/Club"
 import bcrypt from 'bcryptjs';
 
 export async function POST(request) {
