@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import "./SearchBar.css"
 
-export default function Navbar() {
+export default function SearchBar() {
     return (
         <div className="relative mt-7 ml-35 flex justify-start items-center h-8">
             
