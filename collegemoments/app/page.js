@@ -4,6 +4,7 @@ import Image from "next/image";
 import HomeCard from "./homeCard/HomeCard";
 import Leftbar from "./Leftbar/Leftbar";
 import Searchbar from "./Searchbar/Searchbar"
+import SideBar from "@/components/SideBar";
 import "./page.css"
 import { useState } from "react";
 
@@ -47,6 +48,7 @@ export default function Home() {
             ))}
           </div>
         </div>
+        <SideBar/>
       </div>
     </>
   );

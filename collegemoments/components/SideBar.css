@@ -3,7 +3,7 @@
 .sideBar{
 height: 100%;
 width: 20%;
-border-radius: 24px;
+border-radius: 24px 0 0 24px; /* top-left, top-right, bottom-right, bottom-left */
 background: hsl(0, 0%, 85%);
 position: absolute;
 right: 0;
