@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/app/firebase/config";
 import { useRouter } from "next/navigation";
-import "./login.css";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Draggable from 'react-draggable';
+import "./login.css";
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,26 +37,33 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError("");
-    // Dummy API call
-    setTimeout(() => {
-      if (email === "test@example.com" && password === "password") {
-        alert("Login successful!");
-      } else {
-        setError("Invalid email or password");
-      }
-      setLoading(false);
-    }, 2000);
-  };
 
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const userEmail = result.user.email;
-      localStorage.setItem("userEmail", userEmail);
-      router.push("/your-redirect-page"); // Redirect to your desired page after login
+      const response = await fetch("/api/adminLogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("userEmail", data.email);
+        localStorage.setItem("clubName", data.clubName);
+        toast.success("Login successful!", { position: "bottom-center" });
+        setTimeout(() => {
+          router.push("/your-redirect-page"); // Redirect to your desired page after login
+        }, 3000);
+      } else {
+        setError(data.message || "Login failed");
+        toast.error(data.message || "Invalid email or password", { position: "bottom-center" });
+      }
     } catch (error) {
-      console.error("Error during Google login:", error);
+      setError("An error occurred during login");
+      toast.error("An error occurred during login", { position: "bottom-center" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,6 +74,7 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-400 to-pink-400 px-4 py-8 sm:px-6 lg:px-8">
+      <ToastContainer />
       <div className="log-div w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-lg">
         <div className="mb-6">
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -147,20 +156,6 @@ export default function Login() {
                 {loading ? "Loading..." : "Login"}
               </motion.button>
             </div>
-            <div className="mainFont mb-4 log-btn-p">
-              <motion.button
-                type="button"
-                onClick={handleGoogleLogin}
-                className="log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none transition-colors duration-300 ease-in-out"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.99 }}
-              >
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <img className="w-6" src="/google.png" alt="" />
-                </span>
-                Login with Google
-              </motion.button>
-            </div>
           </div>
           {error && (
             <div className="text-red-500 text-center mb-4">
@@ -215,20 +210,11 @@ export default function Login() {
             </motion.div>
           </div>
         </Draggable>
-        <Draggable>
-          <div className="absolute top-1/2 left-1/4 p-2 bg-blue-300 rounded-full shadow-lg cursor-pointer">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            >
-              💡
-            </motion.div>
-          </div>
-        </Draggable>
       </div>
     </div>
   );
 }
+
 
 function CheckIcon(props) {
   return (
