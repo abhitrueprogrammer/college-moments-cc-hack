@@ -93,7 +93,7 @@
     
     border:none;
     
-    background-color: #69809a;
+    background-color: #4C68D7;
 }
 .log-btn:hover{
 }
@@ -106,7 +106,7 @@
 
 }
 .log-div{
-    background: #95A3B3;
+    background: #ffffff;
     border-radius: 10px;
 }
 
@@ -119,12 +119,12 @@
 
 .log-input:focus{
     /* background-color: #6c7b8b; */
-    background: #ffffff;
+    background: #95A3B3;
     outline: none; /* Remove default focus outline */
     box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
   border: 1px solid #ffffff00;
 }
 
 .log-input::placeholder{
-    color: #4C68D7;
+    color: #505050;
 }
