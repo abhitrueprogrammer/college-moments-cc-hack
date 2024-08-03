@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Draggable from 'react-draggable'
-
+import "./login.css"
 
 export default function Component() {
   const [email, setEmail] = useState("")
