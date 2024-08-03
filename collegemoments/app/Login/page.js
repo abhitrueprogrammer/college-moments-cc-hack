@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Draggable from 'react-draggable'
 
+
 export default function Component() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -38,6 +39,11 @@ export default function Component() {
       setLoading(false)
     }, 2000)
   }
+  const remStyle = {
+    margin: "20px 0px",
+    marginLeft: "4px"
+
+  }
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
@@ -45,10 +51,10 @@ export default function Component() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-400 to-pink-400 px-4 py-8 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-lg">
+      <div className="log-div w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-lg">
         <div className="mb-6">
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            <span className="inline-block whitespace-nowrap overflow-hidden pr-3 animate-typewriter">Welcome back.</span>
+            <span className="mainFont inline-block whitespace-nowrap overflow-hidden pr-3 animate-typewriter">WELCOME BACK</span>
           </h2>
         </div>
         <form className="mt-4 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
@@ -64,7 +70,7 @@ export default function Component() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="relative block w-full appearance-none rounded-2xl border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm transition-colors duration-300 ease-in-out focus:shadow-lg"
+                  className="mainFont log-input relative block w-full appearance-none rounded-2xl border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm transition-colors duration-300 ease-in-out focus:shadow-lg"
                   placeholder="Email address"
                   value={email}
                   onChange={handleEmailChange}
@@ -87,7 +93,7 @@ export default function Component() {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
-                  className="relative block w-full appearance-none rounded-2xl border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm transition-colors duration-300 ease-in-out focus:shadow-lg"
+                  className="mainFont log-input relative block w-full appearance-none rounded-2xl border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm transition-colors duration-300 ease-in-out focus:shadow-lg"
                   placeholder="Password"
                   value={password}
                   onChange={handlePasswordChange}
@@ -97,7 +103,7 @@ export default function Component() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-between mb-6">
+            <div style={remStyle} className="mainFont rem-div flex items-center justify-between mb-6">
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -112,12 +118,12 @@ export default function Component() {
                 </label>
               </div>
             </div>
-            <div className="mb-4">
+            <div className="mainFont mb-4 log-btn-p">
               <motion.button
                 type="submit"
-                className="group relative flex w-full justify-center rounded-2xl border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className=" log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none transition-colors duration-300 ease-in-out"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
                 disabled={loading}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -126,12 +132,12 @@ export default function Component() {
                 {loading ? "Loading..." : "Login"}
               </motion.button>
             </div>
-            <div className="mb-4">
+            <div className="mainFont mb-4 log-btn-p">
               <motion.button
                 type="button"
-                className="group relative flex w-full justify-center rounded-2xl border border-transparent bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className=" log-btn group relative flex w-full justify-center rounded-2xl border border-transparent bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none  transition-colors duration-300 ease-in-out"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   {/* <ChromeIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" /> */}
@@ -147,14 +153,14 @@ export default function Component() {
             </div>
           )}
         </form>
-        <div className="flex items-center justify-center mt-6">
+        <div className="mainFont flex items-center justify-center mt-6">
           <div className="text-sm">
             <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
               Not have an account? Sign up
             </a>
           </div>
         </div>
-        <Draggable>
+        {/* <Draggable>
           <div className="absolute top-10 right-10 p-2 bg-indigo-300 rounded-full shadow-lg cursor-pointer">
             <motion.div
               animate={{ rotate: 360 }}
@@ -163,7 +169,7 @@ export default function Component() {
               😊
             </motion.div>
           </div>
-        </Draggable>
+        </Draggable> */}
       </div>
     </div>
   )
