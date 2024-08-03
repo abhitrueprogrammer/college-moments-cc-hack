@@ -155,9 +155,8 @@ export default function Component() {
         </form>
         <div className="mainFont flex items-center justify-center mt-6">
           <div className="text-sm">
-            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-              Not have an account? Sign up
-            </a>
+            
+              <p>Not have an account?<a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a></p>
           </div>
         </div>
         {/* <Draggable>

@@ -119,12 +119,12 @@
 
 .log-input:focus{
     /* background-color: #6c7b8b; */
-    background: #95A3B3;
+    background: #ffffff;
     outline: none; /* Remove default focus outline */
     box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.2) !important;
   border: 1px solid #ffffff00;
 }
 
 .log-input::placeholder{
-    color: #505050;
+    color: #4C68D7;
 }
