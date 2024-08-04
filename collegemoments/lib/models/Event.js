@@ -1,28 +1,19 @@
 // models/Event.js
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
 const EventSchema = new Schema({
-  clubId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Club',
-    required: true
-  },
-  name: {
+  title: {
     type: String,
     required: true
   },
   description: String,
-  images: [
-    {
-      type: String
-    }
-  ],
   date: {
     type: Date,
-    default: Date.now
-  }
+    required: true
+  },
+  images: [String] // Array of image URLs
 });
 
-const Event = models.Event || model("Event", EventSchema);
+const Event = models.Event || model('Event', EventSchema);
 
 export default Event;

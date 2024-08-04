@@ -1,42 +1,36 @@
-// app/api/uploadEvent/route.js
 import { NextResponse } from 'next/server';
-// import connect from '../../../lib/db';
-// import connect from '@/lib/db';
-import connect from "../../../lib/db"
-// import Event from '../../../models/Event';
-// import Event from '@/lib/models/Event';
-import Event from "../../../lib/models/Event"
-// import Club from '../../../models/Club';
-// import Club from '@/lib/models/Club';
-import Club from "../../../lib/models/Club"
-// import User from '../../../models/User';
-import User from "../../../lib/models/User"
+import connect from '../../../lib/db';
+import Club from '../../../lib/models/Club';
 
 export async function POST(request) {
   await connect();
-  const { userId, clubId, eventName, eventDescription, eventImages } = await request.json();
+  const { clubId, title, description, images } = await request.json();
+  const user = request.user;
 
   try {
-    const user = await User.findById(userId);
-    if (!user.clubIds.includes(clubId)) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+    // Validate input
+    if (!clubId || !title || !description || !images || !Array.isArray(images)) {
+      return NextResponse.json({ error: 'Club ID, title, description, and images are required' }, { status: 400 });
     }
 
-    const newEvent = await Event.create({
-      clubId,
-      name: eventName,
-      description: eventDescription,
-      images: eventImages
-    });
+    // Find the club
+    const club = await Club.findById(clubId);
+    if (!club) {
+      return NextResponse.json({ error: 'Club not found' }, { status: 404 });
+    }
 
-    await Club.findByIdAndUpdate(
-      clubId,
-      { $push: { events: newEvent._id } },
-      { new: true }
-    );
+    // Check if user is an admin
+    if (!club.admins.includes(user._id)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    // Add event
+    club.events.push({ title, description, images });
+    await club.save();
 
     return NextResponse.json({ message: 'Event uploaded successfully' }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('Error uploading event:', error);
+    return NextResponse.json({ error: 'Failed to upload event' }, { status: 500 });
   }
 }

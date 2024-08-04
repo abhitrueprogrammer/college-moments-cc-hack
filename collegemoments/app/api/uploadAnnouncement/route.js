@@ -1,33 +1,36 @@
-// app/api/uploadAnnouncement/route.js
 import { NextResponse } from 'next/server';
-// import connect from '../../../lib/db';
-// import connect from '@/lib/db';
-import connect from "../../../lib/db"
-// import Club from '../../../models/Club';
-// import Club from '@/lib/models/Club';
-import Club from "../../../lib/models/Club"
-// import User from '../../../models/User';
-// import User from '@/lib/models/User';
-import User from "../../../lib/models/User"
+import connect from '../../../lib/db';
+import Club from '../../../lib/models/Club';
 
 export async function POST(request) {
   await connect();
-  const { userId, clubId, announcement } = await request.json();
+  const { clubId, announcement, image } = await request.json();
+  const user = request.user;
 
   try {
-    const user = await User.findById(userId);
-    if (!user.clubIds.includes(clubId)) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+    // Validate input
+    if (!clubId || !announcement || !image) {
+      return NextResponse.json({ error: 'Club ID, announcement, and image are required' }, { status: 400 });
     }
 
-    await Club.findByIdAndUpdate(
-      clubId,
-      { $push: { announcements: announcement } },
-      { new: true }
-    );
+    // Find the club
+    const club = await Club.findById(clubId);
+    if (!club) {
+      return NextResponse.json({ error: 'Club not found' }, { status: 404 });
+    }
+
+    // Check if user is an admin
+    if (!club.admins.includes(user._id)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
+    }
+
+    // Add announcement
+    club.announcements.push({ text: announcement, image });
+    await club.save();
 
     return NextResponse.json({ message: 'Announcement uploaded successfully' }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('Error uploading announcement:', error);
+    return NextResponse.json({ error: 'Failed to upload announcement' }, { status: 500 });
   }
 }
