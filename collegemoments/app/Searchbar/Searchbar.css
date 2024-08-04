@@ -13,9 +13,15 @@
 }
 
 .searchIcon{
-    bottom: 3px;
+    bottom: 6px;
 }
 
 .s-div{
     width: fit-content;
+}
+
+@media screen and (max-width: 1000px){
+    .searchBar{
+        width: 40vw;
+    }
 }

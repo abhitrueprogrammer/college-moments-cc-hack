@@ -22,8 +22,17 @@ box-shadow: 0px 4px 2.3px 0px rgba(0, 0, 0, 0.17);
 
 .sideCard{
     background-color: gray;
-    width: 200px;
+    width: 17vw;
     height: 200px;
     display: block;
     
+}
+
+@media screen and (max-width: 1000px){
+    .sideCard{
+        width: 100%;
+    }
+    .sideBar{
+        display: none;
+    }
 }

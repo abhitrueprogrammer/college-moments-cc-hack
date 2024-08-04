@@ -1,50 +1,36 @@
-import { Schema, model, models } from 'mongoose';
-
-const AnnouncementSchema = new Schema({
-  text: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-});
-
-const EventSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  images: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
-});
+// lib/models/Club.js
+import { Schema, model, models } from "mongoose";
 
 const ClubSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
   },
   description: String,
+  image: String, // URL or base64 string for the club image
   admins: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+      ref: 'User'
+    }
   ],
-  announcements: [AnnouncementSchema],
-  events: [EventSchema],
+  announcements: [
+    {
+      title: String,
+      description: String,
+      image: String // URL or base64 string for the announcement image
+    }
+  ],
+  events: [
+    {
+      title: String,
+      description: String,
+      images: [String] // Array of URLs or base64 strings for event images
+    }
+  ]
 });
 
-const Club = models.Club || model('Club', ClubSchema);
+const Club = models.Club || model("Club", ClubSchema);
 
 export default Club;

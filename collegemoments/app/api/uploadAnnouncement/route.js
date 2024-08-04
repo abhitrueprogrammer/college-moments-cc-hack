@@ -1,34 +1,38 @@
 import { NextResponse } from 'next/server';
-import connect from '../../../lib/db';
-import Club from '../../../lib/models/Club';
+import connect from '@/lib/db';
+import Club from '@/lib/models/Club';
 
 export async function POST(request) {
   await connect();
-  const { clubId, announcement, image } = await request.json();
-  const user = request.user;
+  const { clubId, title, description, image } = await request.json();
 
   try {
     // Validate input
-    if (!clubId || !announcement || !image) {
-      return NextResponse.json({ error: 'Club ID, announcement, and image are required' }, { status: 400 });
+    if (!clubId || !title || !description) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Find the club
+    // Find the club by ID
     const club = await Club.findById(clubId);
     if (!club) {
-      return NextResponse.json({ error: 'Club not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Club not found' }, { status: 403 });
     }
 
-    // Check if user is an admin
-    if (!club.admins.includes(user._id)) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
-    }
+    // Create the announcement
+    const announcement = {
+      title,
+      description,
+      image,
+    };
 
-    // Add announcement
-    club.announcements.push({ text: announcement, image });
-    await club.save();
+    // Add the announcement to the club
+    await Club.findByIdAndUpdate(
+      clubId,
+      { $push: { announcements: announcement } },
+      { new: true }
+    );
 
-    return NextResponse.json({ message: 'Announcement uploaded successfully' }, { status: 201 });
+    return NextResponse.json({ message: 'Announcement uploaded successfully', announcement }, { status: 201 });
   } catch (error) {
     console.error('Error uploading announcement:', error);
     return NextResponse.json({ error: 'Failed to upload announcement' }, { status: 500 });
